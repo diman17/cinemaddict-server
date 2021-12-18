@@ -1,5 +1,5 @@
-const filmModel = require('./film-schema');
-const { getCommentById, deleteCommentById, addComment } = require('./utils');
+const filmModel = require('../schemas/film-schema');
+const { getCommentById, deleteCommentById, addComment } = require('../utils/utils');
 
 class FilmsService {
   async getFilmsAll() {

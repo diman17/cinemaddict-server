@@ -1,4 +1,4 @@
-const filmsService = require('./films-service');
+const filmsService = require('../services/films-service');
 
 class FilmsController {
   async getFilmsAll(req, res) {
