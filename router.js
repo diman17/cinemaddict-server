@@ -1,18 +1,22 @@
-const { Router } = require("express");
-const filmsController = require("./films-controller");
+const { Router } = require('express');
+const filmsController = require('./films-controller');
 
 const router = new Router();
 
-router.get("/films", filmsController.getFilmsAll);
+router.get('/films', filmsController.getFilmsAll);
 
-router.post("/films", filmsController.createFilm);
+router.get('/films/:filmId', filmsController.getFilmById);
 
-router.get("/films/:filmId", filmsController.getFilmById);
+router.post('/films', filmsController.createFilm);
 
-router.get("/films/:filmId/comments", filmsController.getFilmsCommentsAll);
+router.put('/films/:filmId', filmsController.updateFilm);
 
-router.get("/films/:filmId/comments/:commentId", filmsController.getFilmsCommentById);
+router.get('/films/:filmId/comments', filmsController.getFilmsCommentsAll);
 
-router.delete("/films/:filmId/comments/:commentId", filmsController.deleteFilmsCommentById);
+router.get('/films/:filmId/comments/:commentId', filmsController.getFilmsCommentById);
+
+router.post('/films/:filmId/comments', filmsController.createComment);
+
+router.delete('/films/:filmId/comments/:commentId', filmsController.deleteFilmsCommentById);
 
 module.exports = router;

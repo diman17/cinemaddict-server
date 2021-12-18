@@ -8,4 +8,8 @@ const deleteCommentById = (film, commentId) => {
   });
 };
 
-module.exports = { getCommentById, deleteCommentById };
+const addComment = (comment, film) => {
+  film.comments.push(comment);
+};
+
+module.exports = { getCommentById, deleteCommentById, addComment };

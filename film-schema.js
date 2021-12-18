@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const filmSchema = new mongoose.Schema({
   title: String,
@@ -26,6 +26,4 @@ const filmSchema = new mongoose.Schema({
   isFavorite: Boolean,
 });
 
-const filmModel = mongoose.model("film", filmSchema);
-
-module.exports = filmModel;
+module.exports = mongoose.model('film', filmSchema);

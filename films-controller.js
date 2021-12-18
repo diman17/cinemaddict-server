@@ -1,106 +1,83 @@
-const filmModel = require("./film-schema");
-const { getCommentById, deleteCommentById } = require("./utils");
+const filmsService = require('./films-service');
 
 class FilmsController {
   async getFilmsAll(req, res) {
     try {
-      const films = await filmModel.find();
-
+      const films = await filmsService.getFilmsAll();
       res.status(200).json(films);
     } catch (error) {
-      res.status(500).json(error);
-    }
-  }
-
-  async createFilm(req, res) {
-    try {
-      const film = await filmModel.create(req.body);
-
-      res.status(200).json(film);
-    } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json(error.message);
     }
   }
 
   async getFilmById(req, res) {
     try {
       const { filmId } = req.params;
-
-      if (!filmId) {
-        res.status(400).json({ message: "filmId not specified" });
-      }
-
-      const film = await filmModel.findById(filmId);
-
+      const film = await filmsService.getFilmById(filmId);
       res.status(200).json(film);
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json(error.message);
+    }
+  }
+
+  async createFilm(req, res) {
+    try {
+      const film = await filmsService.createFilm(req.body);
+      res.status(200).json(film);
+    } catch (error) {
+      res.status(500).json(error.message);
+    }
+  }
+
+  async updateFilm(req, res) {
+    try {
+      const { filmId } = req.params;
+      await filmsService.updateFilm(req.body, filmId);
+      res.status(200).json(`film from id=${filmId} has been updated`);
+    } catch (error) {
+      res.status(500).json(error.message);
     }
   }
 
   async getFilmsCommentsAll(req, res) {
     try {
       const { filmId } = req.params;
-
-      if (!filmId) {
-        res.status(400).json({ message: "filmId not specified" });
-      }
-
-      const film = await filmModel.findById(filmId);
-
-      res.status(200).json(film.comments);
+      const comments = await filmsService.getFilmsCommentsAll(filmId);
+      res.status(200).json(comments);
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json(error.message);
     }
   }
 
   async getFilmsCommentById(req, res) {
     try {
       const { filmId, commentId } = req.params;
-
-      if (!filmId) {
-        res.status(400).json({ message: "filmId not specified" });
-      }
-
-      if (!commentId) {
-        res.status(400).json({ message: "commentId not specified" });
-      }
-
-      const film = await filmModel.findById(filmId);
-
-      const comment = getCommentById(film, commentId);
-
+      const comment = await filmsService.getFilmsCommentById(filmId, commentId);
       res.status(200).json(comment);
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json(error.message);
+    }
+  }
+
+  async createComment(req, res) {
+    try {
+      const { filmId } = req.params;
+      await filmsService.createComment(req.body, filmId);
+      res.status(200).json(`Comment ${req.body.text} has been added`);
+    } catch (error) {
+      res.status(500).json(error.message);
     }
   }
 
   async deleteFilmsCommentById(req, res) {
     try {
       const { filmId, commentId } = req.params;
-
-      if (!filmId) {
-        res.status(400).json({ message: "filmId not specified" });
-      }
-
-      if (!commentId) {
-        res.status(400).json({ message: "commentId not specified" });
-      }
-
-      const film = await filmModel.findById(filmId);
-
-      deleteCommentById(film, commentId);
-
-      await filmModel.findByIdAndUpdate(filmId, film, { new: true });
-
-      res.status(200).json(film);
+      await filmsService.deleteFilmsCommentById(filmId, commentId);
+      res.status(200).json(`Comment from id=${commentId} has been deleted`);
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json(error.message);
     }
   }
 }
 
-const filmsController = new FilmsController();
-
-module.exports = filmsController;
+module.exports = new FilmsController();
