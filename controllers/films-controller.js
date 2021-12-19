@@ -32,8 +32,8 @@ class FilmsController {
   async updateFilm(req, res) {
     try {
       const { filmId } = req.params;
-      await filmsService.updateFilm(req.body, filmId);
-      res.status(200).json(`film from id=${filmId} has been updated`);
+      const updatedFilm = await filmsService.updateFilm(req.body, filmId);
+      res.status(200).json(updatedFilm);
     } catch (error) {
       res.status(500).json(error.message);
     }

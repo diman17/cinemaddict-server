@@ -18,7 +18,8 @@ class FilmsService {
   }
 
   async updateFilm(film, filmId) {
-    await filmModel.findByIdAndUpdate(filmId, film, { new: true });
+    const updatedFilm = await filmModel.findByIdAndUpdate(filmId, film, { new: true });
+    return updatedFilm;
   }
 
   async getFilmsCommentsAll(filmId) {
