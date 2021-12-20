@@ -12,6 +12,6 @@
         "ecmaVersion": 13
     },
     "rules": {
-      "class-methods-use-this": 1
+      "class-methods-use-this": 0
     }
 }
